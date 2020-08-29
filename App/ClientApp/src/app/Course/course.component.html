@@ -1,0 +1,87 @@
+<div class="container">
+  <div class="row m-3" *ngIf="!isCreateOn">
+    <button class="btn btn-primary"  (click)="AddCourse()">
+      Add Course
+    </button>
+  </div>
+  <div *ngIf="!isCreateOn">
+    <div class="row" *ngIf="courseList && courseList.length>0">
+      <div class="col-md-12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Duration</th>
+              <th scope="col">Description</th>
+              <th scope="col">Created On</th>
+              <th scope="col">Active?</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cl of courseList; let i = index">
+              <th scope="row">{{i +1 }}</th>
+              <td>{{cl.CourseName}}</td>
+              <td>{{cl.CourseDuration}}</td>
+              <td>{{cl.CourseDescription}}</td>
+              <td>{{cl.CreatedOn | date:"MM/dd/yy" }}</td>
+              <td>{{cl.IsActive==true?'Active':'Not Active' }}</td>
+              <td> <button class="btn btn-info" (click)="editCourse(cl.CourseId)">Edit</button>
+                   <button class="btn btn-warning ml-1" (click)="deleteCourse(cl.CourseId)">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- Create and Edit Form -->
+
+  <div class="row" *ngIf="isCreateOn">
+    <form novalidate [formGroup]="courseForm">
+      <div class="form-group row">
+        <label for="CourseName" class="col-sm-4 col-form-label">Name</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" formControlName="name" id="CourseName">
+          <span class="text-danger ml-3" *ngIf="displayMessage.name">
+            {{displayMessage.name}}
+          </span>
+        </div>
+
+      </div>
+      <div class="form-group row">
+        <label for="courseDescription" class="col-sm-4 col-form-label">Description</label>
+        <div class="col-sm-8">
+          <textarea class="form-control" id="courseDescription" rows="3" formControlName="description"></textarea>
+          <span class="text-danger ml-3" *ngIf="displayMessage.description">
+            {{displayMessage.description}}
+          </span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="CourseDuration" class="col-sm-4 col-form-label">Duration</label>
+        <div class="col-sm-8">
+          <input type="number" class="form-control" id="CourseDuration" formControlName="duration">
+          <span class="text-danger ml-3" *ngIf="displayMessage.duration">
+            {{displayMessage.duration}}
+          </span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="IsActive" class="col-sm-4">Active?</label>
+        <div class="col-sm-8">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="IsActive" formControlName="isactive">
+          </div>
+        </div>
+      </div>
+      <div class="form-group border-top mt-3 pt-3 text-center">
+        <button class="btn btn-success" [ngStyle]="{'cursor': !courseForm.valid? 'not-allowed' : 'default' }" [disabled]="!courseForm.valid" (click)="CreateCourse()">
+          <span *ngIf="this.selectedcourse">Edit</span> <span *ngIf="!this.selectedcourse">Create</span> Course
+          <span class="spinner-border spinner-border-sm text-light ml-1" role="status" aria-hidden="true" *ngIf="isCourseAdded"></span>
+        </button>
+        <button class="btn btn-secondary ml-3" (click)="Back()">Back</button>
+      </div>
+    </form>
+  </div>
+</div>

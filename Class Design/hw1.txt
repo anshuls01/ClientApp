@@ -1,0 +1,118 @@
+Course	
+	Id
+	Name
+	
+CoursePreReq
+		CourseId
+		TeacherPrereq (json)
+		StudentPrereq (json)
+
+Student 
+	id
+	name
+	courseid
+	teacherid
+	
+Teacher
+	id 
+	name
+	courseid
+	
+
+CourseVM{
+	Id,Name,Teacherpre, StudentPre
+}
+
+IcoursePreReqisite
+	Dictionary<string,object> prerequisitelist {get;set;}
+	IcoursePreReqisite addPrerequisite(Dictionary<string,object> items);
+	bool checkPrerequisite(Dictionary<string,object> qualification);
+	IcoursePreReqisite getPreRequisite(id);
+
+Courses
+	Dictionary<string,object> items = new Dictionary<string,object>();
+//	public IcoursePreReqisite Teacherpre {get;set;}
+//	public IcoursePreReqisite Studentpre {get;set;}
+	[HttpPost]
+	public ActionResult Post(CourseVM data)
+	{
+		var createPreRequisite = new Prereqisite(new Teacher());
+		items = data.TeacherPreRequisite;
+		CourseVM.Teacherpre = createPreRequisite.CreatePreRequisite(items);
+		
+		createPreRequisite = new Prereqisite(new Student());
+		items = data.StudentPreRequisite;
+		CourseVM.Studentpre = createPreRequisite.CreatePreRequisite(items);
+		
+		//Map CourseVM to Course and add teacher and student prereq
+		//save to db
+	}
+
+
+	[HttpPost]
+	public bool Enroll(int CourseId, int Id, int Type)
+	{
+		EnrollClass obj = 	new EnrollClass();
+		bool result = obj.Enroll(CourseId,id,type);
+		return result;
+	}
+	
+public class Prereqisite {
+	private IcoursePreReqisite icourse
+	
+	public Prereqisite (IcoursePreReqisite _icourse)
+	{	
+		icourse = _icourse
+	}
+
+	public IcoursePreReqisite CreatePreRequisite(Dictionary<string,object> items)
+	{
+		return icourse.addPrerequisite(items);
+	}
+	
+	public IcoursePreReqisite getPreRequisite(id)
+	{
+		return icourse.getPrerequisite(id);
+	}
+	
+	
+}
+
+Teacherpre:IcoursePreReqisite
+	Dictionary<string,object> prerequisitelist {get;set;}
+	Teacherpre addPrerequisite(Dictionary<string,object> items)
+	{
+		/////
+	}
+
+	bool checkPrerequisite(Dictionary<string,object> qualification)
+	{
+		//get teacher Qualification for of type IQualification
+		////
+	}
+	
+	Teacherpre getPreRequisite(id)
+	{
+		/////
+	}
+		
+
+
+Studentpre:IcoursePreReqisite
+	Dictionary<string,object> prerequisitelist {get;set;}
+	Studentpre addPrerequisite(Dictionary<string,object> items)
+	{
+		/////
+	}
+
+	bool checkPrerequisite(Dictionary<string,object> qualification)
+	{
+	//get student Qualification for of type IQualification
+		////
+	}
+	
+	Studentpre getPreRequisite(id)
+	{
+		/////
+	}
+

@@ -1,0 +1,55 @@
+//enroll process
+
+IQualification
+	qualification Dictionary<string,object>
+	fillQualification();
+	
+Student:IQualification
+{
+	id
+	name
+	qualification Dictionary<string,object>
+	fillQualification()
+	{
+		////
+	}
+}
+
+Teacher:IQualification
+{
+	id
+	name
+	qualification Dictionary<string,object>
+	
+	fillQualification()
+	{
+		////
+	}
+
+}
+enrollClass
+{
+	enum{
+		teacher,
+		student
+	}
+
+	private IcoursePreReqisite;
+	private IQualification;
+	enroll(courseId,id,type)
+	{
+
+		if(type==enumtype.teacher) //can be converted to chain of responsibility
+		{
+			//get teacherPrq for the course of type IcoursePreReqisite
+			//get the teacher qualification using id of type IQualification
+		}
+		else
+		{
+			//get studentPrq for the course of type IcoursePreReqisite
+			//get the student qualification using id of type IQualification
+		}
+		
+		IcoursePreReqisite.checkPrerequisite(IQualification.qualification);
+	}
+}
